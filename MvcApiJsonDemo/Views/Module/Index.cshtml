@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MvcApiJsonDemo.Models.Module>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naam)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr onclick="getItem(@item.Id)">
+        <td>
+            @Html.DisplayFor(modelItem => item.Naam)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+    
+}
+
+</table>
+
+<div>
+    <label>Id</label><input id="id"/>
+    <label>Naam</label><input id="naam"/>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function ()
+    {
+        $.getJSON("api/module/",
+        function (Data) {
+
+            $.each(Data, function (key, val)
+            {
+                
+            });
+        });
+    });
+
+    function getItem(id) {
+    
+        $.getJSON("api/module/" + id,
+            function (Data) {
+
+                $("#id").val(Data.Id);
+                $("#naam").val(Data.Naam);
+
+            })
+        .fail(
+            function (jqXHR, textStatus, err) {
+                $('#items').text('Error: ' + err);
+            });
+    }
+</script>
